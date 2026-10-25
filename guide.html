@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Understanding your BMI — BMI-CAL Guide</title>
+  <meta name="description" content="A simple, comprehensive guide to adult BMI ranges, categories, and interpretations.">
+  <meta name="theme-color" content="#F7F7F8">
+
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='28' fill='%23FFB66E'/><path d='M30 70V30h22c6 0 11 4 11 10 0 4-2 7-6 9 5 2 8 5 8 11 0 6-5 10-12 10H30zm10-24h10c2 0 4-2 4-4s-2-4-4-4H40v8zm0 16h11c3 0 5-2 5-5s-2-5-5-5H40v10z' fill='%23FFFFFF'/></svg>">
+
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-link" aria-label="BMI-CAL Home">
+        <div class="brand-badge">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+          </svg>
+        </div>
+        <span class="brand-text">BMI-CAL</span>
+      </a>
+
+      <nav class="nav-pill-group" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Calculator</a>
+        <a href="guide.html" class="nav-link active" aria-current="page">BMI Guide</a>
+      </nav>
+
+      <div class="engine-tag" id="engine-status-tag" title="Calculation engine status">
+        <span class="engine-dot" aria-hidden="true"></span>
+        <span>C / WASM Engine</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Guide View -->
+  <main>
+    <section class="hero-section">
+      <div class="eyebrow-badge">REFERENCE &amp; EDUCATION</div>
+      <h1 class="hero-heading">Understanding your BMI</h1>
+      <p class="hero-subtitle">A simple guide to adult BMI ranges and their categories.</p>
+    </section>
+
+    <div class="guide-wrapper">
+
+      <!-- Horizontal Segmented BMI Range Visualization -->
+      <section class="card-glass guide-chart-card" aria-labelledby="chart-heading">
+        <div class="guide-chart-header">
+          <div>
+            <h2 id="chart-heading" class="chart-title">Adult BMI Classification Scale</h2>
+            <p class="chart-subtitle">Standard World Health Organization &amp; CDC adult screening thresholds</p>
+          </div>
+        </div>
+
+        <!-- Accessible description for screen readers -->
+        <p class="sr-only">
+          The BMI chart has four segments: Underweight for BMI below 18.5, Healthy weight for BMI between 18.5 and 24.9, Overweight for BMI between 25.0 and 29.9, and Obesity for BMI 30.0 and above.
+        </p>
+
+        <!-- Segmented Bar Container -->
+        <div class="guide-scale-container" aria-hidden="true">
+          <div class="guide-bar">
+            <div class="guide-seg seg-underweight" title="Underweight: Below 18.5">
+              <span>&lt; 18.5</span>
+            </div>
+            <div class="guide-seg seg-healthy" title="Healthy weight: 18.5 to below 25">
+              <span>18.5 – 24.9</span>
+            </div>
+            <div class="guide-seg seg-overweight" title="Overweight: 25 to below 30">
+              <span>25 – 29.9</span>
+            </div>
+            <div class="guide-seg seg-obesity" title="Obesity: 30 and above">
+              <span>&ge; 30.0</span>
+            </div>
+          </div>
+
+          <!-- Interactive User Result Marker (if previously calculated) -->
+          <div class="scale-marker-container">
+            <div class="scale-marker" id="guide-user-marker" style="display: none; left: 50%;">
+              <div class="marker-arrow"></div>
+              <div class="marker-tag">Your Result</div>
+            </div>
+          </div>
+
+          <!-- Axis Marks with Boundary Callouts -->
+          <div class="guide-axis">
+            <div class="guide-axis-tick">
+              <span class="tick-val">10</span>
+              <span class="tick-note">(scale start)</span>
+            </div>
+            <div class="guide-axis-tick" style="margin-left: -15px;">
+              <span class="tick-val">18.5</span>
+              <span class="tick-note">Underweight cutoff</span>
+            </div>
+            <div class="guide-axis-tick">
+              <span class="tick-val">25.0</span>
+              <span class="tick-note">Healthy cutoff</span>
+            </div>
+            <div class="guide-axis-tick" style="margin-right: -10px;">
+              <span class="tick-val">30.0</span>
+              <span class="tick-note">Obesity cutoff</span>
+            </div>
+            <div class="guide-axis-tick">
+              <span class="tick-val">40+</span>
+              <span class="tick-note">(scale end)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Legend -->
+        <div class="chart-legend" role="list">
+          <div class="legend-item" role="listitem">
+            <div class="legend-swatch swatch-underweight" aria-hidden="true"></div>
+            <span><strong>Underweight</strong> (&lt; 18.5)</span>
+          </div>
+          <div class="legend-item" role="listitem">
+            <div class="legend-swatch swatch-healthy" aria-hidden="true"></div>
+            <span><strong>Healthy weight</strong> (18.5 – 24.9)</span>
+          </div>
+          <div class="legend-item" role="listitem">
+            <div class="legend-swatch swatch-overweight" aria-hidden="true"></div>
+            <span><strong>Overweight</strong> (25.0 – 29.9)</span>
+          </div>
+          <div class="legend-item" role="listitem">
+            <div class="legend-swatch swatch-obesity" aria-hidden="true"></div>
+            <span><strong>Obesity</strong> (&ge; 30.0)</span>
+          </div>
+        </div>
+
+        <!-- Note regarding illustrative bounds -->
+        <div class="chart-note-box">
+          <strong>Note on Axis Range:</strong> The visual scale spans an illustrative range from BMI 10 to BMI 40 for clarity. The Underweight category extends below 10, and the Obesity category extends beyond 40; neither has a fixed hard endpoint.
+        </div>
+      </section>
+
+      <!-- Category Cards Grid -->
+      <section aria-labelledby="categories-heading">
+        <h2 id="categories-heading" class="sr-only">Detailed Category Overview</h2>
+        <div class="category-cards-grid">
+
+          <!-- Card 1: Underweight -->
+          <article class="cat-card card-underweight">
+            <div class="cat-card-header">
+              <div class="cat-icon-badge cat-icon-underweight" aria-hidden="true">
+                <!-- Water drop / feather icon -->
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                </svg>
+              </div>
+              <span class="cat-bmi-range">Below 18.5</span>
+            </div>
+            <div>
+              <h3 class="cat-name">Underweight</h3>
+              <p class="cat-description">
+                A BMI below 18.5 indicates that a person may not be consuming enough nutrients or could have an underlying condition affecting weight. It may be associated with lowered immunity, nutritional deficiencies, and fatigue.
+              </p>
+            </div>
+          </article>
+
+          <!-- Card 2: Healthy Weight -->
+          <article class="cat-card card-healthy">
+            <div class="cat-card-header">
+              <div class="cat-icon-badge cat-icon-healthy" aria-hidden="true">
+                <!-- Checkmark / leaf icon -->
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"/>
+                </svg>
+              </div>
+              <span class="cat-bmi-range">18.5 to below 25</span>
+            </div>
+            <div>
+              <h3 class="cat-name">Healthy Weight</h3>
+              <p class="cat-description">
+                A BMI between 18.5 and 24.9 is considered optimal for most adult men and women. It is correlated with lower incidence of chronic conditions such as cardiovascular disease, hypertension, and type 2 diabetes.
+              </p>
+            </div>
+          </article>
+
+          <!-- Card 3: Overweight -->
+          <article class="cat-card card-overweight">
+            <div class="cat-card-header">
+              <div class="cat-icon-badge cat-icon-overweight" aria-hidden="true">
+                <!-- Activity / pulse icon -->
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 12h4l3 8 4-16 3 8h4"/>
+                </svg>
+              </div>
+              <span class="cat-bmi-range">25 to below 30</span>
+            </div>
+            <div>
+              <h3 class="cat-name">Overweight</h3>
+              <p class="cat-description">
+                A BMI between 25.0 and 29.9 indicates body weight above the standard threshold for height. While it may increase the risk of cardiovascular stress, individuals with high muscle mass can also fall into this range.
+              </p>
+            </div>
+          </article>
+
+          <!-- Card 4: Obesity -->
+          <article class="cat-card card-obesity">
+            <div class="cat-card-header">
+              <div class="cat-icon-badge cat-icon-obesity" aria-hidden="true">
+                <!-- Alert / shield pulse icon -->
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-1 6h2v6h-2V8zm0 8h2v2h-2v-2z"/>
+                </svg>
+              </div>
+              <span class="cat-bmi-range">30 and above</span>
+            </div>
+            <div>
+              <h3 class="cat-name">Obesity</h3>
+              <p class="cat-description">
+                A BMI of 30.0 or higher is classified as obesity. Healthcare providers commonly evaluate lifestyle factors, blood pressure, lipid panels, and metabolic markers to recommend customized wellness and nutritional plans.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Limitations of BMI Card -->
+      <section class="limitations-card">
+        <h3 class="limitations-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Important Limitations of BMI
+        </h3>
+        <p class="limitations-text">
+          Body Mass Index (BMI) does <strong>not directly measure body fat</strong> or distinguish between muscle, bone density, and adipose tissue. As a consequence, athletes and bodybuilders with high muscle mass may be classified as overweight or obese, while older adults who have lost muscle tissue may register in the healthy range despite carrying excess fat. BMI should always be viewed as a high-level screening indicator rather than a diagnostic evaluation.
+        </p>
+      </section>
+
+      <!-- Back to Calculator Button -->
+      <div class="guide-footer-action">
+        <a href="index.html" class="btn-calculate" style="max-width: 280px; margin: 0 auto; text-decoration: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: rotate(180deg);">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+          <span>Back to Calculator</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <strong>BMI-CAL</strong> &copy; 2026. Private &amp; client-side. No data is stored or transmitted.
+      </div>
+      <div class="footer-tech">
+        <span class="tech-badge">Vanilla JS</span>
+        <span class="tech-badge">Compiled C (WebAssembly)</span>
+        <span class="tech-badge">Vercel</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="wasm/bmi.js"></script>
+  <script src="js/bmi-module.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

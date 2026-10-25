@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BMI-CAL — Know your numbers.</title>
+  <meta name="description" content="Calculate your Body Mass Index in seconds with BMI-CAL. Fast, private, and powered by compiled C WebAssembly.">
+  <meta name="theme-color" content="#F7F7F8">
+
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='28' fill='%23FFB66E'/><path d='M30 70V30h22c6 0 11 4 11 10 0 4-2 7-6 9 5 2 8 5 8 11 0 6-5 10-12 10H30zm10-24h10c2 0 4-2 4-4s-2-4-4-4H40v8zm0 16h11c3 0 5-2 5-5s-2-5-5-5H40v10z' fill='%23FFFFFF'/></svg>">
+
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Opening Screen Animation (Hold + Zoom Forward) -->
+  <div id="intro-overlay" role="presentation" aria-hidden="true">
+    <div class="intro-content">
+      <div class="intro-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+        </svg>
+      </div>
+      <h1 class="intro-title">BMI-CAL</h1>
+      <p class="intro-tagline">Your Personal BMI Tool</p>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-link" aria-label="BMI-CAL Home">
+        <div class="brand-badge">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+          </svg>
+        </div>
+        <span class="brand-text">BMI-CAL</span>
+      </a>
+
+      <nav class="nav-pill-group" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link active" aria-current="page">Calculator</a>
+        <a href="guide.html" class="nav-link">BMI Guide</a>
+      </nav>
+
+      <div class="engine-tag" id="engine-status-tag" title="Calculation engine status">
+        <span class="engine-dot" aria-hidden="true"></span>
+        <span>C / WASM Engine</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Calculator View -->
+  <main>
+    <section class="hero-section">
+      <div class="eyebrow-badge">YOUR PERSONAL BMI TOOL</div>
+      <h1 class="hero-heading">Know your numbers.</h1>
+      <p class="hero-subtitle">Calculate your Body Mass Index in seconds.</p>
+    </section>
+
+    <div class="calculator-wrapper">
+      <div class="card-glass">
+        <form class="calc-form" id="bmi-form" novalidate>
+
+          <!-- Height Input Block -->
+          <div class="input-block">
+            <div class="input-header">
+              <label for="height-input" class="input-label">Height</label>
+              <span class="input-subtext">Decimal supported</span>
+            </div>
+            
+            <div class="input-control-row" id="height-control-row">
+              <input 
+                type="number" 
+                id="height-input" 
+                class="num-input" 
+                placeholder="e.g. 170" 
+                step="any"
+                min="0"
+                inputmode="decimal"
+                aria-describedby="height-error"
+                autocomplete="off"
+              >
+              
+              <!-- Height Unit Selector -->
+              <div class="segmented-control" role="group" aria-label="Height units">
+                <button type="button" class="seg-btn" data-unit-group="height" data-unit="m" aria-pressed="false">m</button>
+                <button type="button" class="seg-btn active" data-unit-group="height" data-unit="cm" aria-pressed="true">cm</button>
+                <button type="button" class="seg-btn" data-unit-group="height" data-unit="in" aria-pressed="false">in</button>
+              </div>
+            </div>
+            <div id="height-error" class="error-message" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Weight Input Block -->
+          <div class="input-block">
+            <div class="input-header">
+              <label for="weight-input" class="input-label">Weight</label>
+              <span class="input-subtext">Decimal supported</span>
+            </div>
+            
+            <div class="input-control-row" id="weight-control-row">
+              <input 
+                type="number" 
+                id="weight-input" 
+                class="num-input" 
+                placeholder="e.g. 65" 
+                step="any"
+                min="0"
+                inputmode="decimal"
+                aria-describedby="weight-error"
+                autocomplete="off"
+              >
+              
+              <!-- Weight Unit Selector -->
+              <div class="segmented-control" role="group" aria-label="Weight units">
+                <button type="button" class="seg-btn active" data-unit-group="weight" data-unit="kg" aria-pressed="true">kg</button>
+                <button type="button" class="seg-btn" data-unit-group="weight" data-unit="lbs" aria-pressed="false">lbs</button>
+              </div>
+            </div>
+            <div id="weight-error" class="error-message" role="alert" aria-live="polite"></div>
+          </div>
+
+          <!-- Calculate Action Button -->
+          <button type="submit" class="btn-calculate" id="btn-calculate">
+            <span>Calculate BMI</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Result Card Container (Dynamically injected upon calculation) -->
+      <div id="result-section"></div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <strong>BMI-CAL</strong> &copy; 2026. Private &amp; client-side. No data is stored or transmitted.
+      </div>
+      <div class="footer-tech">
+        <span class="tech-badge">Vanilla JS</span>
+        <span class="tech-badge">Compiled C (WebAssembly)</span>
+        <span class="tech-badge">Vercel</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="wasm/bmi.js"></script>
+  <script src="js/bmi-module.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
